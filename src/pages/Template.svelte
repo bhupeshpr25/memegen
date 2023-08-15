@@ -31,6 +31,7 @@
     params.set("template_id", selectedTemplate.id);
     params.set("username", username);
     params.set("password", password);
+    params.set("max_font_size", "24");
 
     captionInputs.forEach((caption, index) => {
       params.append(`boxes[${index}][text]`, caption);
