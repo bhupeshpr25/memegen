@@ -18,6 +18,8 @@
 
   let generatedMeme: GeneratedMeme | null = null;
   let captionInputs: string[] = [];
+  let generatingMeme = false;
+  let imageLoaded = false;
 
   onMount(() => {
     captionInputs = Array.from(
@@ -27,6 +29,8 @@
   });
 
   async function generateMeme() {
+    generatingMeme = true;
+
     const params = new URLSearchParams();
     params.set("template_id", selectedTemplate.id);
     params.set("username", username);
@@ -46,6 +50,7 @@
     } else {
       console.error("Error generating meme:", data.error_message);
     }
+    generatingMeme = false;
   }
 
   async function copyMemeURL() {
@@ -100,21 +105,31 @@
       >
     </form>
 
-    {#if generatedMeme}
+    {#if generatingMeme}
+      <p class="my-4 text-gray-200">Generating meme...</p>
+    {:else if generatedMeme}
       <div class="my-4">
-        <img src={generatedMeme.url} alt="Generated Meme" />
-        <div class="mt-4 flex">
-          <button
-            type="button"
-            class="block mx-auto rounded-md bg-teal-600 p-2 text-sm font-medium text-white transition hover:bg-teal-700 focus:outline-none focus:ring"
-            on:click={copyMemeURL}>copy URL</button
-          >
-          <button
-            type="button"
-            class="block mx-auto rounded-md bg-teal-600 p-2 text-sm font-medium text-white transition hover:bg-teal-700 focus:outline-none focus:ring"
-            on:click={downloadMeme}>download</button
-          >
-        </div>
+        <img
+          src={generatedMeme.url}
+          alt="Generated Meme"
+          on:load={() => {
+            imageLoaded = true;
+          }}
+        />
+        {#if imageLoaded}
+          <div class="mt-4 flex">
+            <button
+              type="button"
+              class="mx-auto rounded-md bg-teal-600 p-2 text-sm font-medium text-white transition hover:bg-teal-700 focus:outline-none focus:ring"
+              on:click={copyMemeURL}>copy URL</button
+            >
+            <button
+              type="button"
+              class="mx-auto rounded-md bg-teal-600 p-2 text-sm font-medium text-white transition hover:bg-teal-700 focus:outline-none focus:ring"
+              on:click={downloadMeme}>download</button
+            >
+          </div>
+        {/if}
       </div>
     {/if}
   </div>
