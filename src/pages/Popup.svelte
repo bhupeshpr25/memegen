@@ -3,17 +3,24 @@
   import { fetchTemplates } from "../lib/fetchTemplates";
   import Template from "./Template.svelte";
 
+  interface MemeTemplate {
+    id: string;
+    url: string;
+    name: string;
+    box_count: number;
+  }
+
   onMount(fetchMemeTemplates);
 
-  let memeTemplates: any = [];
-  let selectedTemplate: any = null;
-  let templateId: any = null;
+  let memeTemplates: MemeTemplate[] = [];
+  let selectedTemplate: MemeTemplate | null = null;
+  let templateId: string | null = null;
 
   async function fetchMemeTemplates() {
     memeTemplates = await fetchTemplates();
   }
 
-  async function selectTemplate(template: any) {
+  async function selectTemplate(template: MemeTemplate) {
     selectedTemplate = template;
     templateId = template.id;
   }

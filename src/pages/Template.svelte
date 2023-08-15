@@ -1,14 +1,23 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  export let selectedTemplate: any;
-  export let onClose: any;
+  export let selectedTemplate: {
+    id: string;
+    box_count: number;
+    url: string;
+    name: string;
+  };
+  export let onClose: () => void;
 
-  const username = import.meta.env.VITE_IMGFLIP_USERNAME;
-  const password = import.meta.env.VITE_IMGFLIP_PASSWORD;
+  const username: string = import.meta.env.VITE_IMGFLIP_USERNAME;
+  const password: string = import.meta.env.VITE_IMGFLIP_PASSWORD;
 
+  interface GeneratedMeme {
+    url: string;
+  }
+
+  let generatedMeme: GeneratedMeme | null = null;
   let captionInputs: string[] = [];
-  let generatedMeme: any = null;
 
   onMount(() => {
     captionInputs = Array.from(
@@ -18,23 +27,17 @@
   });
 
   async function generateMeme() {
-    const body = new URLSearchParams();
-    body.set("template_id", selectedTemplate.id);
-    body.set("username", username);
-    body.set("password", password);
+    const params = new URLSearchParams();
+    params.set("template_id", selectedTemplate.id);
+    params.set("username", username);
+    params.set("password", password);
 
     captionInputs.forEach((caption, index) => {
-      body.set(`text${index}`, caption);
+      params.append(`boxes[${index}][text]`, caption);
     });
 
-    const response = await fetch("https://api.imgflip.com/caption_image", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: body.toString(),
-    });
-
+    const url = `https://api.imgflip.com/caption_image?${params.toString()}`;
+    const response = await fetch(url);
     const data = await response.json();
 
     if (data.success) {
@@ -108,7 +111,7 @@
           <button
             type="button"
             class="block mx-auto rounded-md bg-teal-600 p-2 text-sm font-medium text-white transition hover:bg-teal-700 focus:outline-none focus:ring"
-            on:click={downloadMeme}>open</button
+            on:click={downloadMeme}>download</button
           >
         </div>
       </div>
