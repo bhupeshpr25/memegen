@@ -8,6 +8,7 @@ This is a web extension that allows users to generate memes using various templa
 - pnpm (v6 or later)
 - Firefox browser
 - Git
+- [imgflip](https://imgflip.com/) account
 
 ## Supported Operating Systems
 
@@ -19,7 +20,7 @@ This project should work on the following operating systems:
 
 ## Environment Variables
 
-Create a `.env` file in the root directory of your project and add your [imgflip](imgflip.com/) credentials
+Create a `.env` file in the root directory of your project and add your [imgflip](https://imgflip.com/) credentials
 
 Example `.env` file:
 
