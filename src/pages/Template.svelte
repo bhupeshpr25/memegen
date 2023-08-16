@@ -75,13 +75,17 @@
 </script>
 
 <main>
-  <button type="button" class="m-2 text-gray-300 text-sm" on:click={onClose}
-    >back</button
-  >
-  <div class="flex flex-col items-center justify-center">
-    <h1 class="my-2 font-sans font-semibold text-gray-200">Create Meme</h1>
+  <div class="flex justify-between items-center m-2">
+    <button type="button" class="text-gray-300 text-2xl" on:click={onClose}>
+      ⬅
+    </button>
+    <h1 class="font-sans font-semibold text-gray-200 text-center flex-grow">
+      Create Meme
+    </h1>
+  </div>
 
-    <div class="selected-template">
+  <div class="flex flex-col items-center justify-center">
+    <div class="selected-template mx-2">
       <img src={selectedTemplate.url} alt={selectedTemplate.name} />
     </div>
 
