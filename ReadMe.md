@@ -4,9 +4,18 @@ This is a web extension that allows users to generate memes using various templa
 
 ## Requirements
 
-- Node.js and pnpm (or equivalent package manager)
+- Node.js (v14 or later)
+- pnpm (v6 or later)
 - Firefox browser
 - Git
+
+## Supported Operating Systems
+
+This project should work on the following operating systems:
+
+- Linux
+- Windows
+- macOS
 
 ## Environment Variables
 
