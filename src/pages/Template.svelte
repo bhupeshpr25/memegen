@@ -35,7 +35,7 @@
     params.set("template_id", selectedTemplate.id);
     params.set("username", username);
     params.set("password", password);
-    params.set("max_font_size", "24");
+    params.set("max_font_size", "32");
 
     captionInputs.forEach((caption, index) => {
       params.append(`boxes[${index}][text]`, caption);
@@ -66,10 +66,19 @@
 
   function downloadMeme() {
     if (generatedMeme) {
-      const link = document.createElement("a");
-      link.href = generatedMeme.url;
-      link.download = "generated-meme.png";
-      link.click();
+      fetch(generatedMeme.url)
+        .then((response) => response.blob())
+        .then((blob) => {
+          const blobUrl = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = blobUrl;
+          link.download = "generated-meme.png";
+          link.click();
+          URL.revokeObjectURL(blobUrl);
+        })
+        .catch((error) => {
+          console.error("Error downloading meme:", error);
+        });
     }
   }
 </script>
