@@ -35,8 +35,10 @@
         <a
           href="https://github.com/bhupeshpr25/memegen"
           target="_blank"
-          rel="noopener noreferrer">code</a
+          rel="noopener noreferrer"
         >
+          <img src="/github.png" alt="code" width="32" height="32" />
+        </a>
       </div>
     </div>
   </div>
