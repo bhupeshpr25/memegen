@@ -18,17 +18,6 @@ This project should work on the following operating systems:
 - Windows
 - macOS
 
-## Environment Variables
-
-Create a `.env` file in the root directory of your project and add your [imgflip](https://imgflip.com/) credentials
-
-Example `.env` file:
-
-```plaintext
-  VITE_IMGFLIP_USERNAME=your_username
-  VITE_IMGFLIP_PASSWORD=your_password
-```
-
 ## Build Instructions
 
 #### 1. Clone the repository:
@@ -49,7 +38,18 @@ Example `.env` file:
   pnpm install
 ```
 
-#### 4. Run the extension
+#### 4. Environment Variables
+
+Create a `.env` file in the root directory of your project and add your [imgflip](https://imgflip.com/) credentials
+
+Example `.env` file:
+
+```plaintext
+  VITE_IMGFLIP_USERNAME=your_username
+  VITE_IMGFLIP_PASSWORD=your_password
+```
+
+#### 5. Run the extension
 
 - Run the development command
 
@@ -61,7 +61,7 @@ Example `.env` file:
 
 - Click on the extension in the extension menu to run
 
-#### 5. Build the extension
+#### 6. Build the extension
 
 - Run the build command
 
@@ -69,4 +69,4 @@ Example `.env` file:
   pnpm build
 ```
 
-- This will create a `dist` folder in the root directory with all the necessary files
+- This will update the `dist` folder in the root directory with the necessary changes
