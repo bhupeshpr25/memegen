@@ -2,6 +2,11 @@
 
 This is a web extension that allows users to generate memes using various templates.
 
+<a href="https://addons.mozilla.org/en-US/firefox/addon/memegen/">
+    <picture>
+      <source srcset="https://i.imgur.com/ZluoP7T.png" media="(prefers-color-scheme: dark)">
+      <img height="58" src="https://i.imgur.com/4PobQqE.png" alt="Firefox add-ons"></picture></a>
+
 ### screenshots
 
 <div style="display: flex; justify-content: space-between;">
