@@ -52,7 +52,7 @@
       <h1 class="mt-3 font-semibold text-gray-200 text-md">Select Template</h1>
 
       <!-- Display all templates -->
-      <div class="template-list">
+      <div>
         {#each memeTemplates as template}
           <div
             class="m-4"

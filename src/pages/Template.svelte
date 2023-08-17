@@ -105,7 +105,7 @@
 
   <!-- Selected template -->
   <div class="flex flex-col items-center justify-center">
-    <div class="selected-template mx-2">
+    <div class="mx-2">
       <img src={selectedTemplate.url} alt={selectedTemplate.name} />
     </div>
 

@@ -1,3 +1,4 @@
+// Fetch meme templates
 export async function fetchTemplates() {
   try {
     const response = await fetch("https://api.imgflip.com/get_memes");
