@@ -9,6 +9,7 @@
   };
   export let onClose: () => void;
 
+  // Load environment variables
   const username: string = import.meta.env.VITE_IMGFLIP_USERNAME;
   const password: string = import.meta.env.VITE_IMGFLIP_PASSWORD;
 
@@ -21,6 +22,7 @@
   let generatingMeme = false;
   let imageLoaded = false;
 
+  // Initialize caption inputs based on template's box count
   onMount(() => {
     captionInputs = Array.from(
       { length: selectedTemplate.box_count },
@@ -28,23 +30,28 @@
     );
   });
 
+  // Generate meme function
   async function generateMeme() {
     generatingMeme = true;
 
+    // API request parameters
     const params = new URLSearchParams();
     params.set("template_id", selectedTemplate.id);
     params.set("username", username);
     params.set("password", password);
     params.set("max_font_size", "32");
 
+    // Append captions to parameters
     captionInputs.forEach((caption, index) => {
       params.append(`boxes[${index}][text]`, caption);
     });
 
+    // API request to generate meme
     const url = `https://api.imgflip.com/caption_image?${params.toString()}`;
     const response = await fetch(url);
     const data = await response.json();
 
+    // Update generated meme state
     if (data.success) {
       generatedMeme = data.data;
     } else {
@@ -53,6 +60,7 @@
     generatingMeme = false;
   }
 
+  // Copy meme function
   async function copyMemeURL() {
     if (generatedMeme) {
       try {
@@ -64,6 +72,7 @@
     }
   }
 
+  // Download meme function
   function downloadMeme() {
     if (generatedMeme) {
       fetch(generatedMeme.url)
@@ -84,6 +93,7 @@
 </script>
 
 <main>
+  <!-- Header -->
   <div class="flex justify-between items-center m-2">
     <button type="button" class="text-gray-300 text-2xl" on:click={onClose}>
       ⬅
@@ -93,11 +103,13 @@
     </h1>
   </div>
 
+  <!-- Selected template -->
   <div class="flex flex-col items-center justify-center">
     <div class="selected-template mx-2">
       <img src={selectedTemplate.url} alt={selectedTemplate.name} />
     </div>
 
+    <!-- Caption input Form -->
     <form>
       {#each captionInputs as caption, index}
         <div class="my-4 ml-3">
@@ -118,6 +130,7 @@
       >
     </form>
 
+    <!-- Loading and displaying generated meme -->
     {#if generatingMeme}
       <p class="my-4 text-gray-200">Generating meme...</p>
     {:else if generatedMeme}

@@ -10,16 +10,19 @@
     box_count: number;
   }
 
+  // Fetch meme templates on component mount
   onMount(fetchMemeTemplates);
 
   let memeTemplates: MemeTemplate[] = [];
   let selectedTemplate: MemeTemplate | null = null;
   let templateId: string | null = null;
 
+  // Fetch templates
   async function fetchMemeTemplates() {
     memeTemplates = await fetchTemplates();
   }
 
+  // Select a template
   async function selectTemplate(template: MemeTemplate) {
     selectedTemplate = template;
     templateId = template.id;
@@ -27,6 +30,7 @@
 </script>
 
 <main>
+  <!-- Header -->
   <div class="flex m-3 space-x-2">
     <img src="/memegen.webp" alt="icon" class="h-8 w-8" />
     <div class="w-full flex justify-between border-b-2 border-teal-600">
@@ -43,9 +47,11 @@
     </div>
   </div>
   <div class="flex flex-col items-center justify-center">
+    <!-- Conditional rendering based on selected template -->
     {#if !selectedTemplate}
       <h1 class="mt-3 font-semibold text-gray-200 text-md">Select Template</h1>
 
+      <!-- Display all templates -->
       <div class="template-list">
         {#each memeTemplates as template}
           <div
@@ -58,6 +64,7 @@
         {/each}
       </div>
     {:else}
+      <!-- Render selected template -->
       <Template {selectedTemplate} onClose={() => (selectedTemplate = null)} />
     {/if}
   </div>
