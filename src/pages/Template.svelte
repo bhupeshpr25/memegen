@@ -61,13 +61,42 @@
   }
 
   // Copy meme function
-  async function copyMemeURL() {
+  async function copyMeme() {
     if (generatedMeme) {
       try {
-        await navigator.clipboard.writeText(generatedMeme.url);
-        console.log("URL copied to clipboard:", generatedMeme.url);
+        const response = await fetch(generatedMeme.url);
+        const blob = await response.blob();
+
+        const blobUrl = URL.createObjectURL(blob);
+
+        const img = new Image();
+        img.src = blobUrl;
+
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+
+          const context = canvas.getContext("2d");
+
+          if (context) {
+            context.drawImage(img, 0, 0);
+
+            canvas.toBlob((imageBlob) => {
+              if (imageBlob) {
+                const dataUrl = URL.createObjectURL(imageBlob);
+                navigator.clipboard.write([
+                  new ClipboardItem({
+                    [imageBlob.type]: imageBlob,
+                  }),
+                ]);
+                console.log("Image copied to clipboard");
+              }
+            });
+          }
+        };
       } catch (error) {
-        console.error("Error copying URL to clipboard:", error);
+        console.error("Error copying image:", error);
       }
     }
   }
@@ -146,13 +175,13 @@
           <div class="mt-4 flex">
             <button
               type="button"
-              class="mx-auto rounded-md bg-teal-600 p-2 text-sm font-medium text-white transition hover:bg-teal-700 focus:outline-none focus:ring"
-              on:click={copyMemeURL}>copy URL</button
+              class="mx-auto rounded-md w-16 bg-teal-600 p-2 text-sm font-medium text-white transition hover:bg-teal-700 focus:outline-none focus:ring"
+              on:click={copyMeme}>copy</button
             >
             <button
               type="button"
-              class="mx-auto rounded-md bg-teal-600 p-2 text-sm font-medium text-white transition hover:bg-teal-700 focus:outline-none focus:ring"
-              on:click={downloadMeme}>download</button
+              class="mx-auto rounded-md w-16 bg-teal-600 p-2 text-sm font-medium text-white transition hover:bg-teal-700 focus:outline-none focus:ring"
+              on:click={downloadMeme}>save</button
             >
           </div>
         {/if}
