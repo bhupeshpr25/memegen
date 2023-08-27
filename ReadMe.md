@@ -88,6 +88,20 @@ Example `.env` file:
 
 - This will update the `dist` folder in the root directory with the necessary changes
 
+## Troubleshooting
+
+### Copy not working?
+
+#### Reason
+
+On some firefox browsers, this feature might be disabled.
+
+#### Fix
+
+1. Visit the `about:config` page
+2. Search for "dom.events.asyncClipboard.clipboardItem" flag
+3. Set it to true
+
 ### License
 
 This software is released under the terms of the [MIT License](https://github.com/bhupeshpr25/memegen/blob/main/LICENSE)
