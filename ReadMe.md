@@ -13,7 +13,7 @@
 ### screenshots
 
 <div style="display: flex; justify-content: space-between;">
-  <img src="./public/screenshots/screenshot-1.jpg" alt="Screenshot 1" style="width: 200px;">
+  <img src="./public/screenshots/screenshot-1.png" alt="Screenshot 1" style="width: 200px;">
   <img src="./public/screenshots/screenshot-2.jpg" alt="Screenshot 2" style="width: 200px;">
   <img src="./public/screenshots/screenshot-3.jpg" alt="Screenshot 3" style="width: 200px;">
   <img src="./public/screenshots/screenshot-4.jpg" alt="Screenshot 4" style="width: 200px;">
@@ -94,7 +94,7 @@ Example `.env` file:
 
 #### Reason
 
-On some firefox browsers, this feature might be disabled.
+On some firefox browsers, this feature might be turned off by default.
 
 #### Fix
 
