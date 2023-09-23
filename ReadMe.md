@@ -99,7 +99,7 @@ On some firefox browsers, this feature might be disabled.
 #### Fix
 
 1. Visit the `about:config` page
-2. Search for "dom.events.asyncClipboard.clipboardItem" flag
+2. Search for `dom.events.asyncClipboard.clipboardItem` flag
 3. Set it to true
 
 ### License

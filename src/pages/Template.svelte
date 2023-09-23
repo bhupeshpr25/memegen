@@ -1,5 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { generateMeme, copyMeme, downloadMeme } from "../lib/utils/memeUtils";
+  import type { GeneratedMeme } from "../lib/utils/memeUtils";
 
   export let selectedTemplate: {
     id: string;
@@ -13,11 +15,7 @@
   const username: string = import.meta.env.VITE_IMGFLIP_USERNAME;
   const password: string = import.meta.env.VITE_IMGFLIP_PASSWORD;
 
-  interface GeneratedMeme {
-    url: string;
-  }
-
-  let generatedMeme: GeneratedMeme | null = null;
+  let generatedMemeUrl: string | null = null;
   let captionInputs: string[] = [];
   let generatingMeme = false;
   let imageLoaded = false;
@@ -31,92 +29,35 @@
   });
 
   // Generate meme function
-  async function generateMeme() {
+  async function generateMemeFunction() {
     generatingMeme = true;
 
-    // API request parameters
-    const params = new URLSearchParams();
-    params.set("template_id", selectedTemplate.id);
-    params.set("username", username);
-    params.set("password", password);
-    params.set("max_font_size", "32");
-
-    // Append captions to parameters
-    captionInputs.forEach((caption, index) => {
-      params.append(`boxes[${index}][text]`, caption);
-    });
-
-    // API request to generate meme
-    const url = `https://api.imgflip.com/caption_image?${params.toString()}`;
-    const response = await fetch(url);
-    const data = await response.json();
+    const generatedMeme: GeneratedMeme | null = await generateMeme(
+      selectedTemplate.id,
+      captionInputs,
+      username,
+      password
+    );
 
     // Update generated meme state
-    if (data.success) {
-      generatedMeme = data.data;
-    } else {
-      console.error("Error generating meme:", data.error_message);
+    if (generatedMeme) {
+      generatedMemeUrl = generatedMeme.url;
     }
+
     generatingMeme = false;
   }
 
   // Copy meme function
-  async function copyMeme() {
-    if (generatedMeme) {
-      try {
-        const response = await fetch(generatedMeme.url);
-        const blob = await response.blob();
-
-        const blobUrl = URL.createObjectURL(blob);
-
-        const img = new Image();
-        img.src = blobUrl;
-
-        img.onload = () => {
-          const canvas = document.createElement("canvas");
-          canvas.width = img.width;
-          canvas.height = img.height;
-
-          const context = canvas.getContext("2d");
-
-          if (context) {
-            context.drawImage(img, 0, 0);
-
-            canvas.toBlob((imageBlob) => {
-              if (imageBlob) {
-                const dataUrl = URL.createObjectURL(imageBlob);
-                navigator.clipboard.write([
-                  new ClipboardItem({
-                    [imageBlob.type]: imageBlob,
-                  }),
-                ]);
-                console.log("Image copied to clipboard");
-              }
-            });
-          }
-        };
-      } catch (error) {
-        console.error("Error copying image:", error);
-      }
+  async function copyMemeFunction() {
+    if (generatedMemeUrl) {
+      await copyMeme({ url: generatedMemeUrl });
     }
   }
 
   // Download meme function
-  function downloadMeme() {
-    if (generatedMeme) {
-      fetch(generatedMeme.url)
-        .then((response) => response.blob())
-        .then((blob) => {
-          const blobUrl = URL.createObjectURL(blob);
-          const link = document.createElement("a");
-          link.href = blobUrl;
-          link.download = "generated-meme.png";
-          link.click();
-          URL.revokeObjectURL(blobUrl);
-        })
-        .catch((error) => {
-          console.error("Error downloading meme:", error);
-        });
+  function downloadMemeFunction() {
+    if (generatedMemeUrl) {
+      downloadMeme({ url: generatedMemeUrl });
     }
   }
 </script>
@@ -146,7 +87,7 @@
             Caption {index + 1}:
             <textarea
               placeholder=""
-              class="mt-1 w-11/12 rounded-md border-teal-500 text-gray-800 border-2 shadow-sm sm:text-sm"
+              class="mt-1 p-2 w-11/12 rounded-md border-teal-500 text-gray-800 border-2 shadow-sm sm:text-sm"
               bind:value={captionInputs[index]}
             />
           </label>
@@ -155,17 +96,17 @@
       <button
         type="button"
         class="block mx-auto rounded-md bg-teal-600 p-2 text-sm font-medium text-white transition hover:bg-teal-700 focus:outline-none focus:ring"
-        on:click={generateMeme}>Generate Meme</button
+        on:click={generateMemeFunction}>Generate Meme</button
       >
     </form>
 
     <!-- Loading and displaying generated meme -->
     {#if generatingMeme}
       <p class="my-4 text-gray-200">Generating meme...</p>
-    {:else if generatedMeme}
+    {:else if generatedMemeUrl}
       <div class="my-4">
         <img
-          src={generatedMeme.url}
+          src={generatedMemeUrl}
           alt="Generated Meme"
           on:load={() => {
             imageLoaded = true;
@@ -176,12 +117,12 @@
             <button
               type="button"
               class="mx-auto rounded-md w-16 bg-teal-600 p-2 text-sm font-medium text-white transition hover:bg-teal-700 focus:outline-none focus:ring"
-              on:click={copyMeme}>copy</button
+              on:click={copyMemeFunction}>Copy</button
             >
             <button
               type="button"
               class="mx-auto rounded-md w-16 bg-teal-600 p-2 text-sm font-medium text-white transition hover:bg-teal-700 focus:outline-none focus:ring"
-              on:click={downloadMeme}>save</button
+              on:click={downloadMemeFunction}>Save</button
             >
           </div>
         {/if}
