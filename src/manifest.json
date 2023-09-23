@@ -2,8 +2,8 @@
   "{{chrome}}.manifest_version": 3,
   "{{firefox}}.manifest_version": 2,
   "name": "memegen",
-  "version": "1.2.0",
-  "description": "meme generator",
+  "version": "2.0.0",
+  "description": "meme generator extension",
   "icons": {
     "16": "memegen.webp",
     "48": "memegen.webp",
