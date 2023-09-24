@@ -2,6 +2,7 @@ export interface GeneratedMeme {
   url: string;
 }
 
+// Generate function
 export async function generateMeme(
   selectedTemplateId: string,
   captionInputs: string[],
@@ -34,6 +35,7 @@ export async function generateMeme(
   }
 }
 
+// Copy function
 export async function copyMeme(generatedMeme: GeneratedMeme): Promise<void> {
   if (generatedMeme) {
     try {
@@ -74,6 +76,7 @@ export async function copyMeme(generatedMeme: GeneratedMeme): Promise<void> {
   }
 }
 
+// Download function
 export function downloadMeme(generatedMeme: GeneratedMeme): void {
   if (generatedMeme) {
     fetch(generatedMeme.url)

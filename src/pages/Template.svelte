@@ -9,6 +9,8 @@
     url: string;
     name: string;
   };
+
+  // Callback for close action
   export let onClose: () => void;
 
   // Load environment variables

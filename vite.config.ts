@@ -20,7 +20,7 @@ export default defineConfig({
     webExtension({
       manifest: generateManifest,
       watchFilePaths: ["package.json", "manifest.json"],
-      browser: process.env.TARGET || "chrome",
+      browser: process.env.TARGET || "firefox",
     }),
   ],
 });

@@ -3,6 +3,7 @@
   import { fetchTemplates } from "../lib/utils/fetchTemplates";
   import Template from "./Template.svelte";
   import Search from "../lib/components/Search.svelte";
+  import Info from "../lib/components/Info.svelte";
 
   interface MemeTemplate {
     id: string;
@@ -19,6 +20,7 @@
   let templateId: string | null = null;
   let filteredTemplates: MemeTemplate[] = [];
   let selectedTemplateName: string = "";
+  let showModal: boolean = false;
 
   // Fetch templates
   async function fetchMemeTemplates() {
@@ -31,9 +33,10 @@
     templateId = template.id;
   }
 
-  // For Search Input
+  // Search Input
   let searchTerm = "";
-  // resets language menu if search input is used
+
+  // Reset when search term is empty
   $: if (searchTerm) selectedTemplateName = "";
 
   const searchTemplates = () => {
@@ -42,6 +45,11 @@
       return temmplateName.includes(searchTerm.toLowerCase());
     }));
   };
+
+  // Toggle info modal
+  function toggleModal() {
+    showModal = !showModal;
+  }
 </script>
 
 <main>
@@ -50,17 +58,13 @@
     <img src="/memegen.webp" alt="icon" class="h-8 w-8" />
     <div class="w-full flex justify-between border-b-2 border-teal-600">
       <h1 class="font-semibold text-lg text-teal-400">memegen</h1>
-      <div class="text-sm text-teal-600">
-        <a
-          href="https://github.com/bhupeshpr25/memegen"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img src="/github.png" alt="code" width="32" height="32" />
-        </a>
-      </div>
+      <button class="text-sm text-teal-600" on:click={toggleModal}>
+        <img src="/info.png" alt="code" width="24" height="24" />
+      </button>
     </div>
   </div>
+  <!-- Info modal -->
+  <Info {showModal} />
   <div class="flex flex-col items-center justify-center">
     <!-- Conditional rendering based on selected template -->
     {#if !selectedTemplate}
@@ -72,7 +76,10 @@
       <!-- Display all templates -->
       <div>
         {#if searchTerm && filteredTemplates.length === 0}
-          <div class="text-lg text-white mt-20">no results :/</div>
+          <div class="flex flex-col items-center justify-center mt-20">
+            <img src="/not-found.png" alt="code" width="128" height="128" />
+            <div class="text-lg text-white mt-4">no results :/</div>
+          </div>
         {:else if filteredTemplates.length > 0}
           {#each filteredTemplates as template}
             <div
