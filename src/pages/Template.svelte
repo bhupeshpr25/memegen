@@ -22,6 +22,8 @@
   let generatingMeme = false;
   let imageLoaded = false;
 
+  let buttonContainer: HTMLDivElement | null = null;
+
   // Initialize caption inputs based on template's box count
   onMount(() => {
     captionInputs = Array.from(
@@ -44,8 +46,13 @@
     // Update generated meme state
     if (generatedMeme) {
       generatedMemeUrl = generatedMeme.url;
-    }
 
+      // Scroll to the generated meme
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth",
+      });
+    }
     generatingMeme = false;
   }
 
@@ -104,7 +111,7 @@
 
     <!-- Loading and displaying generated meme -->
     {#if generatingMeme}
-      <p class="my-4 text-gray-200">Generating meme...</p>
+      <p class="my-4 text-gray-200">generating meme...</p>
     {:else if generatedMemeUrl}
       <div class="my-4">
         <img
@@ -112,10 +119,15 @@
           alt="Generated Meme"
           on:load={() => {
             imageLoaded = true;
+
+            //scroll to generated image
+            requestAnimationFrame(() => {
+              window.scrollTo(0, document.body.scrollHeight);
+            });
           }}
         />
         {#if imageLoaded}
-          <div class="mt-4 flex">
+          <div class="mt-4 flex" bind:this={buttonContainer}>
             <button
               type="button"
               class="mx-auto rounded-md w-16 bg-teal-600 p-2 text-sm font-medium text-white transition hover:bg-teal-700 focus:outline-none focus:ring"
