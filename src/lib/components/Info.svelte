@@ -15,13 +15,6 @@
           rel="noopener noreferrer"
           class="text-teal-400 hover:underline">GitHub</a
         >
-        or multiple stars on the
-        <a
-          href="https://addons.mozilla.org/en-US/firefox/addon/memegen/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="text-teal-400 hover:underline">Firefox Store</a
-        >
       </p>
     </div>
     <div slot="fix">
