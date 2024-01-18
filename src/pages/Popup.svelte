@@ -59,7 +59,7 @@
     <div class="w-full flex justify-between border-b-2 border-teal-600">
       <h1 class="font-semibold text-lg text-teal-400">memegen</h1>
       <button class="text-sm text-teal-600" on:click={toggleModal}>
-        <img src="/info.png" alt="code" width="24" height="24" />
+        <img src="/support.png" alt="code" width="24" height="24" />
       </button>
     </div>
   </div>
