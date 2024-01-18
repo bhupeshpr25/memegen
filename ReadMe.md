@@ -1,7 +1,7 @@
 <p align="center"><img width="128" height="128" src="./public/memegen-logo.png"></p>
 <h1 align="center">memegen</h1>
 
-<h5>This is a firefox web extension that allows users to generate memes using various templates.</h5>
+<h5>This is a web extension for Chromium and Firefox browsers that allows users to generate memes using trending templates.</h5>
 
 <p align="center">
   </br></br>
@@ -25,7 +25,7 @@
   <img src="./public/screenshots/screenshot-4.jpg" alt="Screenshot 4" style="width: 200px;">
 </div>
 
-## Requirements
+## Build Requirements
 
 - Node.js (v14 or later)
 - pnpm (v6 or later)
